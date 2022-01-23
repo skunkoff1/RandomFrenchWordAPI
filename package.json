@@ -11,6 +11,10 @@
     "type": "git",
     "url": "git+https://github.com/skunkoff1/RandomFrenchWordAPI.git"
   },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
   "author": "DIDRICH Damien Aka Skunkoff",
   "license": "ISC",
   "bugs": {
