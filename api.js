@@ -20,7 +20,6 @@ async function getList() {
             console.log("fonction " + got);
             return got;
         })
-
 }
 
 // getList();
