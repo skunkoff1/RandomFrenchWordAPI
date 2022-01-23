@@ -2,21 +2,37 @@
 const express = require("express");
 const fs = require("fs");
 const cors = require('cors');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+let txt;
+let got;
 
 const app = express();
 app.use(cors());
 
-const file = fs.readFileSync("./wordlist.txt", "latin1");
+async function getList() {
+    await fetch("https://www.damien-didrich.com/wordlist.txt")
+        .then(res => res.text())
+        .then(text => {
+            txt = text;
+            const words = txt.split("\r\n");
+            let rdm = Math.round(Math.random() * 400000);
+            got = words[rdm];
+            console.log("fonction " + got);
+            return got;
+        })
 
-const words = file.split("\r\n");
-let rdm = Math.round(Math.random() *400000);
+}
 
+// getList();
 
-app.get("/getWord", (req, res) => {
+app.get("/getWord", async function (req, res) {
     
-    res.status(200).json({        
-        word : words[rdm]
+    await getList();
+    console.log("appel "+got)
+
+    res.status(200).json({
+        word: got,
     });
 });
 
-app.listen(process.env.PORT, () => console.log('Server started: '+ process.env.PORT));
+app.listen(process.env.PORT, () => console.log('Server started: ' + process.env.PORT));
